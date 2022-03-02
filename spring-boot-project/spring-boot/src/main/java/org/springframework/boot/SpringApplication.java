@@ -297,9 +297,12 @@ public class SpringApplication {
 			ConfigurableEnvironment environment = prepareEnvironment(listeners, bootstrapContext, applicationArguments);
 			configureIgnoreBeanInfo(environment);
 			Banner printedBanner = printBanner(environment);
+			// 创建 context IoC 容器
 			context = createApplicationContext();
 			context.setApplicationStartup(this.applicationStartup);
+			// 主要是加载配置(注解配置) + 生成 beanDefintion
 			prepareContext(bootstrapContext, context, environment, listeners, applicationArguments, printedBanner);
+			// 调用 applicationContext.refresh()，增强 context 的功能，并实例化所有非 lazy-init 的 bean
 			refreshContext(context);
 			afterRefresh(context, applicationArguments);
 			Duration timeTakenToStartup = Duration.ofNanos(System.nanoTime() - startTime);
@@ -404,6 +407,8 @@ public class SpringApplication {
 		// Load the sources
 		Set<Object> sources = getAllSources();
 		Assert.notEmpty(sources, "Sources must not be empty");
+
+		// 加载各种配置
 		load(context, sources.toArray(new Object[0]));
 		listeners.contextLoaded(context);
 	}
@@ -682,6 +687,8 @@ public class SpringApplication {
 		if (this.environment != null) {
 			loader.setEnvironment(this.environment);
 		}
+
+		// 加载配置文件
 		loader.load();
 	}
 

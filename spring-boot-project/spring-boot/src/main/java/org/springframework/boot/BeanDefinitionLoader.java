@@ -88,6 +88,8 @@ class BeanDefinitionLoader {
 		Assert.notNull(registry, "Registry must not be null");
 		Assert.notEmpty(sources, "Sources must not be empty");
 		this.sources = sources;
+
+		// 默认使用注解定义读取器来解析各个配置
 		this.annotatedReader = new AnnotatedBeanDefinitionReader(registry);
 		this.xmlReader = (XML_ENABLED ? new XmlBeanDefinitionReader(registry) : null);
 		this.groovyReader = (isGroovyPresent() ? new GroovyBeanDefinitionReader(registry) : null);
