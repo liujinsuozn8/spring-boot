@@ -80,6 +80,7 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
 @Documented
 @Inherited
 @AutoConfigurationPackage
+// 用来导入 starter
 @Import(AutoConfigurationImportSelector.class)
 public @interface EnableAutoConfiguration {
 
